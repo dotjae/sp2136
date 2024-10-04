@@ -1,2 +1,0 @@
-# MergeSort using CILK
-___

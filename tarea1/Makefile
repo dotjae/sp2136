@@ -2,13 +2,13 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -O2 -fopenmp
+CFLAGS = -Wall -O2
 
 # Target executable
-TARGET = mergesort_omp
+TARGET = mergesort
 
 # Source files
-SRCS = mergesort_omp.c
+SRCS = mergesort.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
