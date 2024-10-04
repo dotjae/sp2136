@@ -2,7 +2,9 @@
 CC = gcc
 
 # Compiler flags
-CFLAGS = -Wall -O2 -fopenmp
+# CFLAGS = -Wall -O2 -fopenmp -std=c99
+
+CFLAGS = -fopenmp -std=c99 
 
 # Target executable
 TARGET = mergesort_omp
@@ -24,9 +26,24 @@ $(TARGET): $(OBJS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+slurm2:
+	sbatch submit.slurm
+
+slurm4:
+	sbatch submit_4.slurm
+
+slurm8:
+	sbatch submit_8.slurm
+
+slurm16:
+	sbatch submit_16.slurm
+
+slurm32:
+	sbatch submit_32.slurm
+
 # Clean up object files and executable
 clean:
-	rm -f $(OBJS) $(TARGET)
+	rm -f $(OBJS) $(TARGET) openmp.*
 
 # Run the program
 run: $(TARGET)

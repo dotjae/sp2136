@@ -5,6 +5,8 @@
 
 #define ARRAY_SIZE 1000000
 
+int num_threads;
+
 // Funcion merge para combinar dos mitades en un solo arreglo
 void merge(int A[], int lo, int mid, int hi) {
     // Tamano de las mitades
@@ -50,16 +52,19 @@ void mergesort(int A[], int lo, int hi) {
         // Paralelizar el ordenamiento de cada mitad del arreglo original
         #pragma omp parallel sections
         {
-            #pragma omp section
+            #pragma omp task shared(A) if (hi-lo > 10000)
             mergesort(A, lo, mid);
 
-            #pragma omp section
+            #pragma omp task shared(A) if (hi-lo>10000)
             mergesort(A, mid + 1, hi);
         }
 
+	#pragma omp taskwait
         merge(A, lo, mid, hi);
     }
 }
+
+
 
 // Funcion para imrimir el arreglo
 void printArray(int arr[], int size) {
@@ -81,25 +86,31 @@ int main() {
     // printArray(arr, ARRAY_SIZE);
 
     // Medir el tiempo
-    // double start_time = omp_get_wtime();
-    clock_t start_time = clock();
+    double start_time = omp_get_wtime();
+    // clock_t start_time = clock();
 
     
     #pragma omp parallel // Se crea el equipo de threads
     {
-        #pragma omp single // Solo un thread llama a la funcion mergesort
+        #pragma omp single 
+	{ // Solo un thread llama a la funcion mergesor
+
+	num_threads = omp_get_num_threads();
+	printf("\nThreads utilizados: %d\n", num_threads);	
         mergesort(arr, 0, ARRAY_SIZE - 1);
+	}
     }
-    // double end_time = omp_get_wtime();
-    clock_t end_time = clock();
+     double end_time = omp_get_wtime();
+    //clock_t end_time = clock();
 
 
     // printf("\nArreglo ordenado:\n");
     // printArray(arr, ARRAY_SIZE);
-
+	
+    // printf("\nThreads: %d", omp_get_thread_num());
     // Tiempo tomado:
-    // double time_taken = end_time - start_time;
-    double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    double time_taken = end_time - start_time;
+    //double time_taken = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
 
     printf("\nTiempo: %f s\n", time_taken);
 

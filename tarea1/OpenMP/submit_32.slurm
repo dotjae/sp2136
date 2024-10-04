@@ -7,8 +7,8 @@
 
 cd $SLURM_SUBMIT_DIR
 
-module load gcc/7.2.0
+module load gcc/9.3.0
 
-export OMP_NUM_THREADS=2
+export OMP_NUM_THREADS=32
 
 ./mergesort_omp
