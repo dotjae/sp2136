@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <cilk/cilk.h>       // Incluir la biblioteca CILK
-#include <cilk/cilk_api.h>   // Incluir la API de CILK para obtener información sobre los threads
+#include <cilk/cilk.h>       
+#include <cilk/cilk_api.h>
 
 #define ARRAY_SIZE 1000000
 

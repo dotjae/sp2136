@@ -26,9 +26,31 @@ $(TARGET): $(OBJS)
 %.o: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+
+slurm:
+	sbatch submit.slurm
+	sbatch submit_4.slurm
+	sbatch submit_8.slurm
+	sbatch submit_16.slurm
+	sbatch submit_32.slurm
+slurm2:
+	sbatch submit.slurm
+
+slurm4:
+	sbatch submit_4.slurm
+
+slurm8:
+	sbatch submit_8.slurm
+
+slurm16:
+	sbatch submit_16.slurm
+
+slurm32:
+	sbatch submit_32.slurm
+
 # Limpiar archivos de compilación
 clean:
-	rm -f $(TARGET) $(OBJS)
+	rm -f $(TARGET) $(OBJS) cilk*
 
 # Ejecutar el programa
 run: $(TARGET)
